@@ -479,6 +479,11 @@ export declare class GhosttyTerminal {
     private _rows;
     /** Cell pool for zero-allocation rendering */
     private cellPool;
+    /** Active viewport decoded once per terminal mutation. */
+    private viewportCache;
+    /** Mutation-invalidated LRU for expensive historical row decoding. */
+    private readonly scrollbackLineCache;
+    private static readonly SCROLLBACK_LINE_CACHE_LIMIT;
     /**
      * Cell pixel dimensions last pushed to the WASM terminal via
      * ghostty_terminal_resize. Zero means "unknown / disabled" — kitty
@@ -826,6 +831,7 @@ export declare class GhosttyTerminal {
      * @param isAnsi True for ANSI modes, false for DEC modes (default: false)
      */
     getMode(mode: number, isAnsi?: boolean): boolean;
+    private invalidateCellCaches;
     private initCellPool;
     /**
      * Get all codepoints for a grapheme cluster at the given position.
@@ -2583,7 +2589,7 @@ export declare class Terminal implements ITerminalCore {
      * loop with self-cancel logic vs. ad-hoc rAF scheduling). We picked
      * this shape for simplicity.
      */
-    private requestRender;
+    requestRender(): void;
     private requestFullRender;
     private renderTick;
     /**
