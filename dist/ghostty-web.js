@@ -4406,6 +4406,9 @@ const cA = class aA {
   hasSelection() {
     return !(!this.selectionStart || !this.selectionEnd || this.isSelecting && !this.dragThresholdMet);
   }
+  copySelectionAutomatically(A) {
+    this.terminal.options.copyOnSelect && this.copyToClipboard(A);
+  }
   /**
    * Copy the current selection to clipboard
    * @returns true if there was text to copy, false otherwise
@@ -4585,7 +4588,7 @@ const cA = class aA {
         }
         if (this.hasSelection()) {
           const Q = this.getSelection();
-          Q && (this.copyToClipboard(Q), this.selectionChangedEmitter.fire());
+          Q && (this.copySelectionAutomatically(Q), this.selectionChangedEmitter.fire());
         }
       }
     }, g.addEventListener("mouseup", this.boundMouseUpHandler), this.boundCanvasClickHandler = (I) => {
@@ -4595,7 +4598,7 @@ const cA = class aA {
           const E = this.viewportRowToAbsolute(Q.row);
           this.selectionStart = { col: C.startCol, absoluteRow: E }, this.selectionEnd = { col: C.endCol, absoluteRow: E }, this.requestRender();
           const i = this.getSelection();
-          i && (this.copyToClipboard(i), this.selectionChangedEmitter.fire());
+          i && (this.copySelectionAutomatically(i), this.selectionChangedEmitter.fire());
         }
       } else if (I.detail >= 3) {
         const Q = this.pixelToCell(I.offsetX, I.offsetY), C = this.viewportRowToAbsolute(Q.row), E = this.wasmTerm.getScrollbackLength();
@@ -4617,7 +4620,7 @@ const cA = class aA {
         if (o >= 0) {
           this.selectionStart = { col: 0, absoluteRow: C }, this.selectionEnd = { col: o, absoluteRow: C }, this.requestRender();
           const D = this.getSelection();
-          D && (this.copyToClipboard(D), this.selectionChangedEmitter.fire());
+          D && (this.copySelectionAutomatically(D), this.selectionChangedEmitter.fire());
         }
       }
     }, A.addEventListener("click", this.boundCanvasClickHandler), this.boundContextMenuHandler = (I) => {
@@ -6772,6 +6775,7 @@ class kg {
       allowTransparency: A.allowTransparency ?? !1,
       convertEol: A.convertEol ?? !1,
       disableStdin: A.disableStdin ?? !1,
+      copyOnSelect: A.copyOnSelect ?? !0,
       smoothScrollDuration: A.smoothScrollDuration ?? 100,
       // Default: 100ms smooth scroll
       renderer: A.renderer ?? "canvas"

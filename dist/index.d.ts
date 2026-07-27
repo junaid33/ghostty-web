@@ -1532,6 +1532,8 @@ export declare interface ITerminalOptions {
     renderer?: 'canvas' | 'webgl';
     convertEol?: boolean;
     disableStdin?: boolean;
+    /** Copy selected text immediately. Explicit copy shortcuts remain active. Default: true. */
+    copyOnSelect?: boolean;
     smoothScrollDuration?: number;
     scrollbarWidth?: number;
     onLinkClick?: (url: string, event: MouseEvent) => boolean;
@@ -2139,6 +2141,7 @@ export declare class SelectionManager {
      * Check if there's an active selection
      */
     hasSelection(): boolean;
+    private copySelectionAutomatically;
     /**
      * Copy the current selection to clipboard
      * @returns true if there was text to copy, false otherwise
