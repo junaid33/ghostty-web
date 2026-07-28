@@ -2134,6 +2134,11 @@ export declare class SelectionManager {
     private static readonly AUTO_SCROLL_INTERVAL;
     constructor(terminal: Terminal, renderer: ITerminalRenderer, wasmTerm: GhosttyTerminal, textarea: HTMLTextAreaElement);
     /**
+     * Rebind selection reads after Terminal.reset() replaces the WASM terminal.
+     * The SelectionManager and its DOM listeners outlive that replacement.
+     */
+    setWasmTerminal(wasmTerm: GhosttyTerminal): void;
+    /**
      * Get the selected text as a string
      */
     getSelection(): string;
