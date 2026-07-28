@@ -1534,6 +1534,8 @@ export declare interface ITerminalOptions {
     disableStdin?: boolean;
     /** Copy selected text immediately. Explicit copy shortcuts remain active. Default: true. */
     copyOnSelect?: boolean;
+    /** Handle Cmd+C internally or defer to the browser's native copy event. Default: clipboard. */
+    copyMode?: 'clipboard' | 'native';
     smoothScrollDuration?: number;
     scrollbarWidth?: number;
     onLinkClick?: (url: string, event: MouseEvent) => boolean;

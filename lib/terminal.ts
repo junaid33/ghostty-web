@@ -169,6 +169,7 @@ export class Terminal implements ITerminalCore {
       convertEol: options.convertEol ?? false,
       disableStdin: options.disableStdin ?? false,
       copyOnSelect: options.copyOnSelect ?? true,
+      copyMode: options.copyMode ?? 'clipboard',
       smoothScrollDuration: options.smoothScrollDuration ?? 100, // Default: 100ms smooth scroll
       renderer: options.renderer ?? 'canvas',
     };
@@ -626,7 +627,9 @@ export class Terminal implements ITerminalCore {
           return this.wasmTerm?.getMode(mode, false) ?? false;
         },
         () => {
-          // Handle Cmd+C copy - returns true if there was a selection to copy
+          // Native mode preserves Coder 0.4's browser-owned copy event. The
+          // host can serialize canvas selection through a synchronous listener.
+          if (this.options.copyMode === 'native') return false;
           return this.copySelection();
         },
         this.textarea,

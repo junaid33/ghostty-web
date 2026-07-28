@@ -6778,6 +6778,7 @@ class kg {
       convertEol: A.convertEol ?? !1,
       disableStdin: A.disableStdin ?? !1,
       copyOnSelect: A.copyOnSelect ?? !0,
+      copyMode: A.copyMode ?? "clipboard",
       smoothScrollDuration: A.smoothScrollDuration ?? 100,
       // Default: 100ms smooth scroll
       renderer: A.renderer ?? "canvas"
@@ -7024,7 +7025,7 @@ class kg {
           var s;
           return ((s = this.wasmTerm) == null ? void 0 : s.getMode(w, !1)) ?? !1;
         },
-        () => this.copySelection(),
+        () => this.options.copyMode === "native" ? !1 : this.copySelection(),
         this.textarea,
         D
       ), this.selectionManager = new IB(
