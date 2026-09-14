@@ -2327,6 +2327,8 @@ export declare class Terminal implements ITerminalCore {
     private isSuspended;
     private animationFrameId?;
     private forceNextRender;
+    private synchronizedOutputTimer?;
+    private synchronizedOutputExpired;
     private addons;
     private customKeyEventHandler?;
     private boundBeforeInputHandler?;
@@ -2613,6 +2615,9 @@ export declare class Terminal implements ITerminalCore {
      */
     requestRender(): void;
     private requestFullRender;
+    private clearSynchronizedOutputWait;
+    /** Parse continuously, but present DEC synchronized output as one frame. */
+    private renderFrame;
     private renderTick;
     /**
      * Get a line from native WASM scrollback buffer
